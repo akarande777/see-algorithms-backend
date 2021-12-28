@@ -1,0 +1,14 @@
+type Algorithm {
+    algoId: Int
+    algoName: String
+}
+
+type Category {
+    catId: Int
+    catName: String
+    algorithms: [Algorithm]
+}
+
+type Query {
+    getAlgorithms: [Category]
+}

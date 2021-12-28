@@ -1,0 +1,20 @@
+type UserAuth {
+    displayName: String
+    authToken: String
+}
+
+type LoginResponse {
+    data: UserAuth
+    status: Boolean!
+    message: String
+}
+
+type Response {
+    status: Boolean!
+    message: String
+}
+
+type Mutation {
+    login(email: String!, password: String!): LoginResponse
+    register(email: String!, password: String!, displayName: String!): Response
+}
