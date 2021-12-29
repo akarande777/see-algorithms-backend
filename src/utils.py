@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
-from .config import JWT_SECRET_KEY
+from .config import *
+from itsdangerous import URLSafeTimedSerializer
+from flask_mail import Message
 import jwt
 
 
@@ -8,8 +10,12 @@ def map_resolver(obj, resolver):
         obj.field(key)(value)
 
 
-def response(data, status=True, message=None):
-    return {'data': data, 'status': status, 'message': message}
+def resolve(data=None):
+    return {'data': data, 'status': True}
+
+
+def reject(message=None):
+    return {'status': False, 'message': message}
 
 
 def auth_token(user_id: int):
@@ -26,3 +32,26 @@ def auth_token(user_id: int):
         )
     except Exception:
         return ''
+
+
+def generate_token(email: str):
+    serializer = URLSafeTimedSerializer(SERIALIZER_SECRET_KEY)
+    return serializer.dumps(email, salt=SERIALIZER_PASSWORD_SALT)
+
+
+def confirm_token(token: str, exp: int = 3600):
+    serializer = URLSafeTimedSerializer(SERIALIZER_SECRET_KEY)
+    return serializer.loads(
+        token,
+        salt=SERIALIZER_PASSWORD_SALT,
+        max_age=exp
+    )
+
+
+def write_mail(to, subject, html):
+    return Message(
+        subject,
+        recipients=[to],
+        html=html,
+        sender=MAIL_USERNAME
+    )

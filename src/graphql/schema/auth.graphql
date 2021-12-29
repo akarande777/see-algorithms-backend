@@ -17,4 +17,5 @@ type Response {
 type Mutation {
     login(email: String!, password: String!): LoginResponse
     register(email: String!, password: String!, displayName: String!): Response
+    confirmEmail(token: String!): Response
 }

@@ -15,6 +15,7 @@ class User(Base):
     created_on = Column(DateTime, nullable=False, server_default=text("now()"))
     last_login = Column(DateTime)
     login_count = Column(Integer, nullable=False)
+    confirmed = Column(Integer, nullable=False, server_default=text("false"))
 
 
 class Algorithm(Base):
@@ -27,15 +28,15 @@ class Category(Base):
     __tablename__ = 'categories'
     cat_id = Column(Integer, primary_key=True)
     cat_name = Column(Text, nullable=False, unique=True)
-    algorithms = relationship('Algorithm', secondary='algo_cat_map')
+    algorithms = relationship('Algorithm', secondary='cat_algo_map')
 
 
-algo_cat_map = Table(
-    'algo_cat_map',
+cat_algo_map = Table(
+    'cat_algo_map',
     Base.metadata,
-    Column('algo_id', ForeignKey('algorithms.algo_id'), nullable=False),
     Column('cat_id', ForeignKey('categories.cat_id'), nullable=False),
-    UniqueConstraint('algo_id', 'cat_id')
+    Column('algo_id', ForeignKey('algorithms.algo_id'), nullable=False),
+    UniqueConstraint('cat_id', 'algo_id')
 )
 
 

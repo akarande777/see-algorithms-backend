@@ -9,7 +9,6 @@ user_auth = ObjectType("UserAuth")
 @mutation.field("login")
 @convert_kwargs_to_snake_case
 def login(_, info, **args):
-    print(f"login args: {args}")
     auth = Auth(info.context)
     return auth.login(**args)
 
@@ -17,9 +16,15 @@ def login(_, info, **args):
 @mutation.field("register")
 @convert_kwargs_to_snake_case
 def register(_, info, **args):
-    print(f"register args: {args}")
     auth = Auth(info.context)
     return auth.register(**args)
+
+
+@mutation.field("confirmEmail")
+@convert_kwargs_to_snake_case
+def confirm_email(_, info, token):
+    auth = Auth(info.context)
+    return auth.confirm_email(token)
 
 
 map_resolver(user_auth, {
