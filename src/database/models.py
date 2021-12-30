@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, Text, Boolean, UniqueConstraint, text
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, Table, Text, Boolean, text
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql.schema import PrimaryKeyConstraint
@@ -22,6 +22,7 @@ class Algorithm(Base):
     __tablename__ = 'algorithms'
     algo_id = Column(Integer, primary_key=True)
     algo_name = Column(Text, nullable=False, unique=True)
+    path_id = Column(Text, nullable=False, unique=True)
 
 
 class Category(Base):
@@ -36,7 +37,7 @@ cat_algo_map = Table(
     Base.metadata,
     Column('cat_id', ForeignKey('categories.cat_id'), nullable=False),
     Column('algo_id', ForeignKey('algorithms.algo_id'), nullable=False),
-    UniqueConstraint('cat_id', 'algo_id')
+    PrimaryKeyConstraint('cat_id', 'algo_id')
 )
 
 

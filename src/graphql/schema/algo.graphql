@@ -1,6 +1,7 @@
 type Algorithm {
     algoId: Int
     algoName: String
+    pathId: String
 }
 
 type Category {
@@ -9,6 +10,12 @@ type Category {
     algorithms: [Algorithm]
 }
 
+type Categories {
+    data: [Category]
+    status: Boolean!
+    message: String
+}
+
 type Query {
-    getAlgorithms: [Category]
+    getAlgorithms: Categories
 }

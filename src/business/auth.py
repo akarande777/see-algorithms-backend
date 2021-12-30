@@ -23,7 +23,7 @@ class Auth:
             self.session.commit()
             return resolve(user)
         except Exception:
-            return reject("Internal server reject")
+            return reject("Internal server error")
 
     def register(self, email: str, password: str, display_name: str):
         try:
@@ -46,7 +46,7 @@ class Auth:
             self.mail.send(mail)
             return resolve()
         except Exception:
-            return reject("Internal server reject")
+            return reject("Internal server error")
 
     def confirm_email(self, token: str):
         try:

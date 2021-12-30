@@ -1,9 +1,9 @@
 from ariadne import load_schema_from_path, make_executable_schema, snake_case_fallback_resolvers
-from .resolvers import auth
+from .resolvers import auth, algo
 
 type_defs = load_schema_from_path("src/graphql/schema/")
 
-resolvers = [*auth.resolvers]
+resolvers = [*auth.resolvers, *algo.resolvers]
 
 schema = make_executable_schema(
     type_defs, *resolvers, snake_case_fallback_resolvers)
